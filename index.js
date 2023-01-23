@@ -11,10 +11,13 @@ app.use(cors());
 app.use(morgan('dev'));
 
 const post = require('./routes/api');
-const todo = require('./routes/apiToDo')
+const todo = require('./routes/apiToDo');
+const user = require('./routes/apiUser');
 
 app.use('/api', post);
 app.use('/api', todo);
+app.use('/api', user);
+
 
 app.listen(3000, () => console.log('listening on port 3000!'));
 

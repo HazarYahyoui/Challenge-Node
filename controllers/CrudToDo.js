@@ -1,35 +1,35 @@
-const Post = require('../models/todo');
+const ToDo = require('../models/todo');
 
 exports.getAllPosts = async (req, res) => {
-  const posts = await Post.find();
-  res.send(posts);
+  const Todos = await ToDo.find();
+  res.send(Todos);
 };
 
 exports.createPost = async (req, res) => {
-  const post = new Post({
+  const todo = new ToDo({
     name: req.body.name,
     description: req.body.description,
   });
 
-  await Post.create(post);
+  await ToDo.create(todo);
 
-  res.send(post);
+  res.send(todo);
 };
 
 exports.getPost = async (req, res) => {
-  const post = await Post.findById(req.params.Id);
+  const todo = await ToDo.findById(req.params.Id);
 
-  res.send(post);
+  res.send(todo);
 };
 
 exports.updatePost = async (req, res) => {
-  const post = await Post.findByIdAndUpdate(req.params.Id);
+  const todo = await ToDo.findByIdAndUpdate(req.params.Id);
 
-  res.send(post);
+  res.send(todo);
 };
 
 exports.deletePost = async (req, res) => {
-  await Post.findByIdAndDelete(req.params.Id);
+  await ToDo.findByIdAndDelete(req.params.Id);
 
   res.send({ message: 'post deleted' });
 };
