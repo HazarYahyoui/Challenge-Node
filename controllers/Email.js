@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
-const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
@@ -46,12 +45,23 @@ exports.emailHtml= async (req, res) => {
         pass: process.env.EMAIL_PASSWORD
         }
     });
+    const from= req.body.from;
+    const to= req.body.to;
+    const subject= req.body.subject;
+    const html= '<p>HTML</p>';
+
      let info = {
-        from: req.body.from,
-        to: req.body.to,
-        subject: req.body.subject,
-        html: req.body.html
+        from: from,
+        to: to,
+        subject: subject,
+        html: html
     };
+    //  let info = {
+    //     from: req.body.from,
+    //     to: req.body.to,
+    //     subject: req.body.subject,
+    //     html: req.body.html
+    // };
      transporter.sendMail(info, function(error, info){
         if (error) {
             res.status(500).send(error);
@@ -66,18 +76,29 @@ exports.emailFichier= async (req, res) => {
     const option = {name:'hazar'}
     const render = ejs.render(template, option );
     let transporter = nodemailer.createTransport({
-        service: gmail,
+        service: 'gmail',
         auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
         }
     });
-    let info = {
-        from: req.body.from,
-        to: req.body.to,
-        subject: req.body.subject,
-        html: render
+    const from= req.body.from;
+    const to= req.body.to;
+    const subject= req.body.subject;
+    const html= render;
+
+     let info = {
+        from: from,
+        to: to,
+        subject: subject,
+        html: html,
     };
+    // let info = {
+    //     from: req.body.from,
+    //     to: req.body.to,
+    //     subject: req.body.subject,
+    //     html: render
+    // };
      transporter.sendMail(info, function(error, info){
         if (error) {
             res.status(500).send(error);
@@ -89,22 +110,38 @@ exports.emailFichier= async (req, res) => {
 
 exports.emailAttachment= async (req, res) => {
     let transporter = nodemailer.createTransport({
-        service: gmail,
+        service: 'gmail',
         auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
         }
     });
-     let info = {
-        from: req.body.from,
-        to: req.body.to,
-        subject: req.body.subject,
-        text: req.body.text,
-    attachments: req.files.map(file => ({
+    const from= req.body.from;
+    const to= req.body.to;
+    const subject= req.body.subject;
+    const text= req.body.text;
+    const attachments= req.files.map(file => ({
         filename: file.originalname,
         content: file.buffer
     }))
+
+     let info = {
+        from: from,
+        to: to,
+        subject: subject,
+        text: text,
+        attachments: attachments,
     };
+    //  let info = {
+    //     from: req.body.from,
+    //     to: req.body.to,
+    //     subject: req.body.subject,
+    //     text: req.body.text,
+    // attachments: req.files.map(file => ({
+    //     filename: file.originalname,
+    //     content: file.buffer
+    // }))
+    // };
      transporter.sendMail(info, function(error, info){
         if (error) {
             res.status(500).send(error);
