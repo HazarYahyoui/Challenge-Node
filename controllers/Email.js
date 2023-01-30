@@ -56,12 +56,7 @@ exports.emailHtml= async (req, res) => {
         subject: subject,
         html: html
     };
-    //  let info = {
-    //     from: req.body.from,
-    //     to: req.body.to,
-    //     subject: req.body.subject,
-    //     html: req.body.html
-    // };
+   
      transporter.sendMail(info, function(error, info){
         if (error) {
             res.status(500).send(error);
@@ -71,7 +66,7 @@ exports.emailHtml= async (req, res) => {
     });
 };
 exports.emailFichier= async (req, res) => {
-    const filepath = path.resolve('../mailTemplate/email.html');
+    const filepath = path.resolve('./mailTemplate/email.html');
     const template = fs.readFileSync(filepath, {encoding:'utf-8'});
     const option = {name:'hazar'}
     const render = ejs.render(template, option );
@@ -92,6 +87,12 @@ exports.emailFichier= async (req, res) => {
         to: to,
         subject: subject,
         html: html,
+        attachments: [
+            {
+                filename:'image',
+                path: './uploads/1674670988948.jpg'
+            }
+        ]
     };
     // let info = {
     //     from: req.body.from,
@@ -105,6 +106,7 @@ exports.emailFichier= async (req, res) => {
         } else {
             res.status(200).send('Email sent: ' + info.response);
         }
+
     });
 }
 
